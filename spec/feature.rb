@@ -1,9 +1,8 @@
-require './lib/deck.rb'
-deck = Deck.new
-deck.make_deck
-deck.shuffle_cards
-deck.deal_two_cards
-deck.player
-deck.player_hit_card
-deck.player_hit_card
-deck.dealer_take_card
+require './lib/table.rb'
+table = Table.new
+table.make_deck
+table.shuffle_cards
+table.deal_two_cards
+table.dealer
+table.player
+table.player_hit_card
