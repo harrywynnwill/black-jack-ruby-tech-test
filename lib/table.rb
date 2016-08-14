@@ -4,12 +4,12 @@ class Table
 
   attr_reader :cards, :deck, :player, :dealer
 
-  VALUES = [11,2,3,4,5,6,7,8,9,10,10,10,10]
+
+  VALUES = [1,2,3,4,5,6,7,8,9,10,10,10,10]
   RANKS = %w{A 2 3 4 5 6 7 8 9 10 J Q K}
   SUITS = %w{Spades Hearts Diamonds Clubs}
   BLACKJACK = 21
   SEVENTEEN = 17
-
 
   def initialize card = Card
     @card = card
@@ -21,7 +21,7 @@ class Table
   def make_deck
     SUITS.each do |suit|
       RANKS.size.times do |i|
-        @deck << @card.new(RANKS[i], suit, VALUES[i] )
+        @deck << @card.new(RANKS[i], suit, VALUES[i])
       end
     end
   end
@@ -36,7 +36,7 @@ class Table
   end
 
   def player_hit_card
-    until player_hand_total <= SEVENTEEN do
+    while player_hand_total <= SEVENTEEN do
       player_deal_one_card
     end
     raise "Dealer wins" if player_hand_total > BLACKJACK
@@ -54,12 +54,12 @@ class Table
   end
 
   def blackjack?
-    "Dealer has blackjack" if dealer_hand_total == BLACKJACK
-    "Player has blackjack" if player_hand_total == BLACKJACK
+    if player_blackjack?
+      "Player has blackjack"
+    elsif dealer_blackjack?
+      "Dealer has blackjack"
+    end
   end
-
-
-
 
   def dealer_hand_total
     hand_totaller @dealer
@@ -69,6 +69,15 @@ class Table
     hand_totaller @player
   end
 
+  private
+
+  def dealer_blackjack?
+     dealer_hand_total == BLACKJACK
+  end
+
+  def player_blackjack?
+      player_hand_total == BLACKJACK
+  end  
 
   def hand_totaller cards
     hand_total = []
@@ -93,4 +102,5 @@ class Table
   def player_deal_one_card
     @player << @deck.pop
   end
+
 end
